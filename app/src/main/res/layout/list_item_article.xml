@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="article"
+            type="com.example.api.models.entities.Article" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:src="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/source_sans_pro_semibold"
+            android:text="@{article.author.username}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/user_timestamp"
+            app:layout_constraintStart_toEndOf="@id/user_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="author" />
+
+        <TextView
+            android:id="@+id/user_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/source_sans_pro_light"
+            android:text="September 11, 2001"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintStart_toEndOf="@id/user_avatar"
+            app:layout_constraintStart_toStartOf="@id/user_name"
+            app:layout_constraintTop_toBottomOf="@id/user_name" />
+        <TextView
+            android:id="@+id/article_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/source_sans_pro_semibold"
+            app:layout_constraintStart_toStartOf="@id/user_avatar"
+            app:layout_constraintTop_toBottomOf="@id/user_avatar"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            tools:text="Why invest early?"
+            android:text="@{article.title}"
+            android:layout_marginTop="7dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/user_avatar"
+            android:fontFamily="@font/source_sans_pro_light"
+            app:layout_constraintTop_toBottomOf="@id/article_title"
+            android:maxLines="3"
+            tools:text="If you want good returns!If you want good returns!If you want good returns!If you want good returns!If you want good returns!If you want good returns!"
+            android:text="@{article.body}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
