@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.conduit.databinding.FragmentFeedBinding
 
-class GlobalFeedFragment: Fragment() {
+class UserFeedFragment: Fragment() {
     private val feedViewModel: FeedViewModel by viewModels()
     private lateinit var feedAdapter: FeedAdapter
 
@@ -34,7 +34,7 @@ class GlobalFeedFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        feedViewModel.fetchGlobalFeed()
+        feedViewModel.fetchUserFeed()
     }
 
     override fun onDestroyView() {

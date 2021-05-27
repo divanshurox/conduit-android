@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.api.models.entities.Article
-import com.example.conduit.data.ArticlesResponse
+import com.example.conduit.data.ArticlesRepo
 import kotlinx.coroutines.launch
 
 class FeedViewModel: ViewModel() {
@@ -15,9 +15,18 @@ class FeedViewModel: ViewModel() {
 
     fun fetchGlobalFeed(){
         viewModelScope.launch{
-            ArticlesResponse.getGlobalFeed().body()?.let{
-                _articles.value = it.articles
-                Log.d("FeedViewModel","feed fetched, ${it.articles?.size}")
+            ArticlesRepo.getGlobalFeed()?.let{
+                _articles.value = it
+                Log.d("FeedViewModel","feed fetched, ${it.size}")
+            }
+        }
+    }
+
+    fun fetchUserFeed(){
+        viewModelScope.launch{
+            ArticlesRepo.getUserFeed()?.let{
+                _articles.value = it
+                Log.d("FeedViewModel","user feed fetched, ${it.size}")
             }
         }
     }

@@ -20,7 +20,7 @@ class ConduitClientTests {
     @Test
     fun `GET articles`(){
         runBlocking {
-            val articles = conduitClient.api.getArticles()
+            val articles = conduitClient.publicApi.getArticles()
             Assert.assertNotNull(articles.body()?.articles)
         }
     }
@@ -28,7 +28,7 @@ class ConduitClientTests {
     @Test
     fun `GET articles by author`(){
         runBlocking {
-            val articlesByAuthor = conduitClient.api.getArticles(author = "jane")
+            val articlesByAuthor = conduitClient.publicApi.getArticles(author = "jane")
             Assert.assertNotNull(articlesByAuthor.body()?.articles)
         }
     }
@@ -41,7 +41,7 @@ class ConduitClientTests {
             username = generateRandomString(10)
         )
         runBlocking {
-            val user = conduitClient.api.registerUser(RegisterRequest(userCreds))
+            val user = conduitClient.publicApi.registerUser(RegisterRequest(userCreds))
             assertEquals(userCreds.username,user.body()?.user?.username)
         }
     }
@@ -53,7 +53,7 @@ class ConduitClientTests {
             password = "1234567890"
         )
         runBlocking {
-            val user = conduitClient.api.loginUser(LoginRequest(userCreds))
+            val user = conduitClient.publicApi.loginUser(LoginRequest(userCreds))
             assertEquals(userCreds.email,user.body()?.user?.email)
         }
     }
