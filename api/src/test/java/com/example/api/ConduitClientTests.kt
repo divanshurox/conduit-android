@@ -1,6 +1,7 @@
 package com.example.api
 
-import com.example.api.models.entities.UserCreds
+import com.example.api.models.entities.LoginData
+import com.example.api.models.entities.RegisterData
 import com.example.api.models.requests.LoginRequest
 import com.example.api.models.requests.RegisterRequest
 import kotlinx.coroutines.runBlocking
@@ -10,7 +11,7 @@ import org.junit.Test
 import kotlin.random.Random
 
 class ConduitClientTests {
-    private val conduitClient = ConduitClient()
+    private val conduitClient = ConduitClient
 
     fun generateRandomString(length: Int): String{
         val possibleVals = ('A'..'Z') + ('0'..'9')
@@ -35,7 +36,7 @@ class ConduitClientTests {
 
     @Test
     fun `POST register user`(){
-        val userCreds = UserCreds(
+        val userCreds = RegisterData(
             email = "testmail${Random.nextInt(1,9)}@test.com",
             password = generateRandomString(10),
             username = generateRandomString(10)
@@ -48,13 +49,13 @@ class ConduitClientTests {
 
     @Test
     fun `POST login user`(){
-        val userCreds = UserCreds(
+        val userCreds = LoginData(
             email = "testmail3@test.com",
             password = "1234567890"
         )
         runBlocking {
             val user = conduitClient.publicApi.loginUser(LoginRequest(userCreds))
-            assertEquals(userCreds.email,user.body()?.user?.email)
+            assertEquals(userCreds.email, user.body()?.user?.email)
         }
     }
 

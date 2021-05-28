@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.api.models.entities.User
+import com.example.api.models.entities.UserUpdateData
 import com.example.conduit.data.AuthRepo
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,23 @@ class AuthViewModel: ViewModel() {
         viewModelScope.launch{
             try{
                 AuthRepo.register(username,email,password)?.let{
+                    _user.value = it
+                }
+            }catch(e: Exception){
+                Log.d("AuthViewModel","${e.message}")
+            }
+        }
+    }
+
+    fun updateProfile(bio: String,imageUrl: String,email: String,newPassword: String?){
+        viewModelScope.launch{
+            try{
+                val userUpdateData: UserUpdateData = if(newPassword.isNullOrEmpty()){
+                    UserUpdateData(bio,email,imageUrl,_user.value?.username.toString(),null)
+                }else{
+                    UserUpdateData(bio,email,imageUrl,_user.value?.username.toString(),newPassword)
+                }
+                AuthRepo.updateProfile(userUpdateData)?.let{
                     _user.value = it
                 }
             }catch(e: Exception){

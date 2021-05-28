@@ -8,10 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.entities.Article
 import com.example.conduit.databinding.ListItemArticleBinding
 
-class FeedAdapter: ListAdapter<Article, FeedAdapter.ArticleViewHolder>(DiffCallback) {
-    class ArticleViewHolder(private var binding: ListItemArticleBinding) : RecyclerView.ViewHolder(binding.root){
+class FeedAdapter(val listener: OnArticleClickedListener): ListAdapter<Article, FeedAdapter.ArticleViewHolder>(DiffCallback) {
+    interface OnArticleClickedListener{
+        fun onArticleClicked()
+    }
+
+    inner class ArticleViewHolder(private var binding: ListItemArticleBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(Article: Article){
             binding.article = Article
+            binding.root.setOnClickListener{
+                listener.onArticleClicked()
+            }
             binding.executePendingBindings()
         }
     }

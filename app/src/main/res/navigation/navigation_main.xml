@@ -8,15 +8,40 @@
         android:id="@+id/nav_global_feed"
         android:name="com.example.conduit.ui.feed.GlobalFeedFragment"
         android:label="@string/menu_global_feed"
-        tools:layout="@layout/fragment_feed"/>
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/action_nav_global_feed_to_nav_article"
+            app:destination="@id/nav_article"
+            app:popUpTo="@id/nav_global_feed" />
+        <argument
+            android:name="slug"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/nav_user_feed"
         android:name="com.example.conduit.ui.feed.UserFeedFragment"
         android:label="@string/menu_user_feed"
-        tools:layout="@layout/fragment_feed"/>
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/action_nav_user_feed_to_nav_article"
+            app:destination="@id/nav_article"
+            app:popUpTo="@id/nav_user_feed" />
+        <argument
+            android:name="slug"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/nav_auth"
         android:name="com.example.conduit.ui.auth.AuthFragment"
         android:label="@string/menu_auth"
         tools:layout="@layout/fragment_auth"/>
+    <fragment
+        android:id="@+id/nav_user_settings"
+        android:name="com.example.conduit.ui.settings.SettingsFragment"
+        android:label="@string/menu_user_settings"
+        tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/nav_article"
+        android:name="com.example.conduit.ui.article.ArticleFragment"
+        android:label="@layout/fragment_article" />
 </navigation>

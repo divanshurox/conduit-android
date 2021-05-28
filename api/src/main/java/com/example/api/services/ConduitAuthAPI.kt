@@ -12,7 +12,7 @@ interface ConduitAuthAPI {
     @GET("user")
     suspend fun getCurrentUser(): Response<UserResponse>
 
-    @POST("user")
+    @PUT("user")
     suspend fun updateCurrentUser(
         @Body userUpdateRequest: UserUpdateRequest
     ): Response<UserResponse>
