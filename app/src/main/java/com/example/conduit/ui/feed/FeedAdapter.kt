@@ -7,18 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.entities.Article
 import com.example.conduit.databinding.ListItemArticleBinding
+import com.example.conduit.extensions.showFormattedDate
 
-class FeedAdapter(val listener: OnArticleClickedListener): ListAdapter<Article, FeedAdapter.ArticleViewHolder>(DiffCallback) {
-    interface OnArticleClickedListener{
-        fun onArticleClicked()
-    }
-
+class FeedAdapter(val onArticleClicked: (slug: String) -> Unit): ListAdapter<Article, FeedAdapter.ArticleViewHolder>(DiffCallback) {
     inner class ArticleViewHolder(private var binding: ListItemArticleBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(Article: Article){
-            binding.article = Article
+        fun bind(article: Article){
+            binding.article = article
             binding.root.setOnClickListener{
-                listener.onArticleClicked()
+                onArticleClicked(article.slug)
             }
+            binding.userTimestamp.showFormattedDate(article.createdAt)
             binding.executePendingBindings()
         }
     }

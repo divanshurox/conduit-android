@@ -2,6 +2,7 @@ package com.example.api.services
 
 import com.example.api.models.requests.LoginRequest
 import com.example.api.models.requests.RegisterRequest
+import com.example.api.models.responses.ArticleResponse
 import com.example.api.models.responses.ArticlesResponse
 import com.example.api.models.responses.TagsResponse
 import com.example.api.models.responses.UserResponse
@@ -27,9 +28,9 @@ interface ConduitAPI {
     ): Response<ArticlesResponse>
 
     @GET("articles/{slug}")
-    suspend fun getArticles(
+    suspend fun getArticle(
         @Path("slug") slug: String
-    ): Response<ArticlesResponse>
+    ): Response<ArticleResponse>
 
     @GET("tags")
     suspend fun getTags(): Response<TagsResponse>

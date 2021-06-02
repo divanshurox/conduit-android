@@ -20,7 +20,8 @@
             tools:srcCompat="@tools:sample/avatars"
             android:src="@color/black"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:imgUrl="@{article.author.image}"/>
 
         <TextView
             android:id="@+id/user_name"
@@ -42,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/source_sans_pro_light"
-            android:text="September 11, 2001"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/user_avatar"

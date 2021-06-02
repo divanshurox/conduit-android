@@ -27,6 +27,18 @@ class AuthViewModel: ViewModel() {
         }
     }
 
+    fun getUser(token: String){
+        viewModelScope.launch{
+            try{
+                AuthRepo.getUserProfile(token)?.let{
+                    _user.value = it
+                }
+            }catch(e: Exception){
+                Log.d("AuthViewModel","${e.message}")
+            }
+        }
+    }
+
     fun register(username:String,email:String,password:String){
         viewModelScope.launch{
             try{
@@ -54,5 +66,9 @@ class AuthViewModel: ViewModel() {
                 Log.d("AuthViewModel","${e.message}")
             }
         }
+    }
+
+    fun logout(){
+        _user.value = null
     }
 }

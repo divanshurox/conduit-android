@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,10 +25,7 @@ class UserFeedFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFeedBinding.inflate(inflater, container, false)
-        feedAdapter = FeedAdapter(object: FeedAdapter.OnArticleClickedListener{
-            override fun onArticleClicked() = openArticle()
-
-        })
+        feedAdapter = FeedAdapter {openArticle(it)}
         _binding?.apply {
             viewModel = feedViewModel
             feedList.layoutManager = LinearLayoutManager(context)
@@ -42,8 +40,11 @@ class UserFeedFragment: Fragment() {
         feedViewModel.fetchUserFeed()
     }
 
-    fun openArticle(){
-        findNavController().navigate(R.id.action_nav_user_feed_to_nav_article)
+    private fun openArticle(articleId: String){
+        findNavController().navigate(
+            R.id.action_nav_global_feed_to_nav_article,
+            bundleOf(R.string.slug.toString() to articleId)
+        )
     }
 
     override fun onDestroyView() {

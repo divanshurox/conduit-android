@@ -1,9 +1,13 @@
 package com.example.conduit
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.edit
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -15,14 +19,20 @@ import com.example.api.models.entities.User
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val SHARED_PREF_AUTH = "prefs_auth"
+        const val PREF_TOKEN = "token"
+    }
     private lateinit var authViewModel: AuthViewModel
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: NavigationView
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+        sharedPreferences = getSharedPreferences(SHARED_PREF_AUTH, Context.MODE_PRIVATE)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        
+
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -39,23 +49,45 @@ class MainActivity : AppCompatActivity() {
         ), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
+        sharedPreferences.getString(PREF_TOKEN,null)?.let{ t ->
+            authViewModel.getUser(t)
+        }
         authViewModel.user.observe({lifecycle}){
             updateMenu(it)
+            it?.token?.let{t ->
+                sharedPreferences.edit {
+                    putString(PREF_TOKEN,t)
+                }
+            } ?: run {
+                sharedPreferences.edit{
+                    remove(PREF_TOKEN)
+                }
+            }
             navController.navigateUp()
         }
     }
 
+
     private fun updateMenu(user: User?){
+        navView.menu.clear()
         when(user){
             is User -> {
-                navView.menu.clear()
                 navView.inflateMenu(R.menu.activity_main_user)
             }
             else -> {
                 navView.inflateMenu(R.menu.activity_main_guest)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_logout -> {
+                authViewModel.logout()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

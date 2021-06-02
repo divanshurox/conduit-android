@@ -43,5 +43,5 @@
     <fragment
         android:id="@+id/nav_article"
         android:name="com.example.conduit.ui.article.ArticleFragment"
-        android:label="@layout/fragment_article" />
+        android:label="@string/article_frag_title" />
 </navigation>
